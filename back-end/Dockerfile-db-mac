@@ -1,0 +1,48 @@
+# Utilisez une image de base compatible avec Homebrew (par exemple, Ubuntu)
+FROM ubuntu:20.04
+
+ENV POSTGRES_USER=${DB_USER}
+ENV POSTGRES_PASSWORD=${DB_PASSWORD}
+
+ENV POSTGRES_DB=${DB_DATABASE}
+
+COPY database.sql /docker-entrypoint-initdb.d/
+
+# Définir la variable d'environnement DEBIAN_FRONTEND sur noninteractive
+RUN export DEBIAN_FRONTEND=noninteractive
+
+# Mise à jour du système et installation des outils de base
+RUN apt-get update -y && apt-get install -y \
+    build-essential \
+    curl \
+    git \
+    postgresql \
+    postgresql-contrib
+
+# Démarrer le service PostgreSQL
+RUN service postgresql start
+
+# Vérifier si PostgreSQL est prêt
+RUN pg_isready
+
+# Créer un rôle utilisateur PostgreSQL
+RUN su postgres -c "createuser -s postgres"
+
+# Créer une base de données vide appelée "area"
+RUN su postgres -c "createdb -U postgres area"
+
+# Copier le fichier database.sql dans le conteneur
+COPY database.sql /root/database.sql
+
+# Exécuter le fichier SQL pour créer les tables
+RUN su postgres -c "psql -d area -f /root/database.sql"
+
+# Vous pouvez ajouter d'autres étapes et configurations spécifiques à votre application ici
+
+# Exemple : Copier votre application dans le conteneur
+# COPY . /app
+
+# Exemple : Exécuter votre application
+# CMD [ "node", "/app/app.js" ]
+
+EXPOSE ${DB_PORT}

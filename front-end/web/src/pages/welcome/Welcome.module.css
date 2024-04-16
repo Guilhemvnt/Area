@@ -1,0 +1,101 @@
+.welcomePage {
+  position: absolute;
+  background-color: #e5e5e5;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-align: center;
+  font-size: 16px;
+  color: #093545;
+  font-family: "Lexend Deca";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.introImage {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  top: -20%;
+}
+
+.image {
+  max-width: 60%;
+  min-width: 40%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.title {
+  position: absolute;
+  color: rgb(33, 70, 101);
+  font-weight: bold;
+  font-size: 30px;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.txt {
+  position: absolute;
+  top: 60%;
+  color: rgb(33, 70, 101);
+  font-weight: normal;
+  font-size: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+}
+
+.buttonSignIn {
+  position: absolute;
+  top: 70%;
+  border-radius: 10px;
+  background-color: #20df7f;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
+  width: 25%;
+  height: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+
+.buttonCreateAnAccount {
+  position: absolute;
+  top: 85%;
+  border-radius: 10px;
+  background-color: #20df7f;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
+  width: 25%;
+  height: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+
+.button {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  line-height: 20px;
+  text-transform: capitalize;
+}
+
+.vectorsIconL {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: auto;
+  object-fit: cover;
+}
+
+.vectorsIconR {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: auto;
+  object-fit: cover;
+}

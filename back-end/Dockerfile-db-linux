@@ -1,0 +1,29 @@
+# Utilisez l'image PostgreSQL officielle en tant que base
+FROM postgres:latest
+
+# Copiez le fichier SQL dans le conteneur
+COPY database.sql /docker-entrypoint-initdb.d/
+
+# Exécutez les commandes SQL lors de la création de l'image
+# Ces commandes seront exécutées au premier démarrage du conteneur PostgreSQL
+# Par exemple, elles peuvent être des commandes CREATE DATABASE, CREATE USER, etc.
+# Assurez-vous que le fichier SQL contient ces commandes.
+
+# Spécifiez l'utilisateur et le mot de passe par défaut (vous pouvez les personnaliser)
+ENV POSTGRES_USER=${DB_USER}
+ENV POSTGRES_PASSWORD=${DB_PASSWORD}
+
+ENV POSTGRES_DB=${DB_DATABASE}
+
+# Le port par défaut est 5432
+
+# Vous pouvez ajouter d'autres variables d'environnement pour personnaliser PostgreSQL si nécessaire
+
+# Si vous avez besoin d'exécuter des scripts supplémentaires au démarrage, ajoutez-les ici
+
+# Les commandes CMD ou ENTRYPOINT de l'image de base (postgres:latest) seront exécutées
+# au démarrage du conteneur, ce qui déclenchera l'importation du fichier SQL.
+
+# Aucun besoin de définir CMD ou ENTRYPOINT ici, car ils sont déjà définis dans l'image de base.
+
+EXPOSE ${DB_PORT}

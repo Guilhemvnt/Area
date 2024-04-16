@@ -1,0 +1,67 @@
+version: '3'
+services:
+  db:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile-db-${OS}
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_HOST=${DB_HOST}
+      - POSTGRES_PORT=${DB_PORT}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    networks:
+      - backend
+    volumes:
+      - database-volume:/var/lib/postgresql/data
+    command: ["postgres", "-c", "log_statement=all"]
+
+  server:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile-back
+    depends_on:
+      - db
+    environment:
+      - HOST=${APP_HOST}
+      - PORT=${APP_PORT}
+      - FRONT_HOST
+      - FRONT_CALLBACK_URL
+      - DATABASE_USERNAME=${DB_USER}
+      - DATABASE_PASSWORD=${DB_PASSWORD}
+      - DATABASE_NAME=${DB_DATABASE}
+      - DATABASE_HOST=${DB_HOST}
+      - DATABASE_PORT=${DB_PORT}
+    ports:
+      - '${APP_PORT}:${APP_PORT}'
+    networks:
+      - backend
+
+  client_mobile:
+    build:
+      context: ./front-end/mobile
+      dockerfile: Dockerfile-${OS}
+    volumes:
+      - shared-volume:/app
+    depends_on:
+      - server
+
+  client_web:
+    build:
+      context: ./front-end/web
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - client_mobile
+    volumes:
+      - shared-volume:/app
+
+networks:
+  backend:
+
+volumes:
+  database-volume:
+  shared-volume:

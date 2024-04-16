@@ -1,0 +1,26 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+button {
+  padding: 10px;
+  background-color: #eee;
+  border: none;
+  cursor: pointer;
+}
+
+ul {
+  position: absolute;
+  top: -50%;
+  left: 160%;
+  list-style: none;
+}
+
+ul button {
+  margin-bottom: 10%;
+}
+
+.dropdown:hover ul {
+  display: block;
+}

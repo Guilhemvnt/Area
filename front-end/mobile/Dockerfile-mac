@@ -1,0 +1,25 @@
+# Utiliser une image de base avec un système d'exploitation compatible avec Flutter
+FROM ubuntu:latest
+
+# Mise à jour des paquets du système
+RUN apt-get update
+
+# Installer les dépendances requises pour Flutter
+RUN apt-get install -y curl git unzip xz-utils libglu1-mesa openjdk-11-jre-headless
+
+# Installer Flutter
+RUN git clone https://github.com/flutter/flutter.git /flutter
+ENV PATH="/flutter/bin:${PATH}"
+
+# Installer le simulateur iOS
+RUN apt-get install -y qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virt-manager
+RUN usermod -a -G kvm,docker <utilisateur>  # Remplacez "<utilisateur>" par votre nom d'utilisateur
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Copier le code source de votre application dans le conteneur
+COPY . /app
+
+# Exécutez les commandes spécifiques à votre application
+CMD cd front-end/mobile && open -a Simulator && flutter run

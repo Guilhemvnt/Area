@@ -1,0 +1,23 @@
+# Use the official Flutter Docker image as the base image
+FROM ghcr.io/cirruslabs/flutter:3.13.9
+
+# Set the working directory to your Flutter project
+WORKDIR /app
+
+# Copy the Flutter project to the container
+COPY . .
+
+# Run Flutter commands to build the APK
+RUN flutter clean
+RUN flutter pub get
+RUN flutter build apk --release
+
+# The built APK will be available in the build/app/outputs/apk/release directory
+
+# Copy the APK to a different location
+RUN mkdir client
+RUN cp build/app/outputs/apk/release/app-release.apk client/client.apk
+RUN find client/client.apk
+
+# Specify the command to run when the container starts
+CMD ["echo", "apk available on client/client.apk"]
